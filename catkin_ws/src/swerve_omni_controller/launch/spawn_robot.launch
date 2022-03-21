@@ -1,0 +1,35 @@
+<launch>
+	<param name="robot_description" command="xacro '$(find swerve_omni_controller)/urdf/swervebot.xacro'" />
+
+	<arg name="world" default="empty"/> 
+	<arg name="paused" default="false"/>
+	<arg name="use_sim_time" default="true"/>
+	<arg name="gui" default="true"/>
+	<arg name="headless" default="false"/>
+	<arg name="debug" default="false"/>
+
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="paused" value="$(arg paused)"/>
+		<arg name="use_sim_time" value="$(arg use_sim_time)"/>
+		<arg name="gui" value="$(arg gui)"/>
+		<arg name="headless" value="$(arg headless)"/>
+		<arg name="debug" value="$(arg debug)"/>
+	</include>
+
+	<node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model swervebot -param robot_description"/>
+
+	<!-- load the controllers -->
+	<rosparam file="$(find swerve_omni_controller)/config/config.yaml" command="load"/>
+
+	<node name="controller_spawner" pkg ="controller_manager" type="spawner" ns="/swervebot" 
+		args="leg_lf_pos_controller leg_rf_pos_controller leg_lh_pos_controller leg_rh_pos_controller 
+			wheel_lf_vel_controller wheel_rf_vel_controller wheel_lh_vel_controller wheel_rh_vel_controller joint_state_controller"/>
+
+	<!-- converts joint states to TF transforms -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+		<remap from="joint_state" to="/swervebot/joint_states" />
+	</node>
+
+	<!-- <node name="swerve_drive_plugin" pkg="swerve_omni_controller" type="plugin" output="screen" args="" /> -->
+
+</launch>

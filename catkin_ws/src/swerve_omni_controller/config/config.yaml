@@ -1,0 +1,66 @@
+swervebot:
+    joint_state_controller:
+        type: joint_state_controller/JointStateController
+        publish_rate: 20
+    
+    # Leg - Position Controllers -------------------------------------
+    leg_lf_pos_controller:
+        type: effort_controllers/JointPositionController
+        joint: leg_lf_joint
+        pid: {p: 50.0, i: 2.0, d: 0.001}
+
+    leg_rf_pos_controller:
+        type: effort_controllers/JointPositionController
+        joint: leg_rf_joint
+        pid: {p: 50.0, i: 2.0, d: 0.001}
+
+    leg_lh_pos_controller:
+        type: effort_controllers/JointPositionController
+        joint: leg_lh_joint
+        pid: {p: 50.0, i: 2.0, d: 0.001}
+
+    leg_rh_pos_controller:
+        type: effort_controllers/JointPositionController
+        joint: leg_rh_joint
+        pid: {p: 50.0, i: 2.0, d: 0.001}
+    
+    # Wheel - Velocity Controllers -------------------------------------
+    wheel_lf_vel_controller:
+        type: velocity_controllers/JointVelocityController
+        joint: wheel_lf_joint
+        pid: {p: 50.0, i: 2.0, d: 0.001}
+    
+    wheel_rf_vel_controller:
+        type: velocity_controllers/JointVelocityController
+        joint: wheel_rf_joint
+        pid: {p: 50.0, i: 2.0, d: 0.001}
+    
+    wheel_lh_vel_controller:
+        type: velocity_controllers/JointVelocityController
+        joint: wheel_lh_joint
+        pid: {p: 50.0, i: 2.0, d: 0.001}
+    
+    wheel_rh_vel_controller:
+        type: velocity_controllers/JointVelocityController
+        joint: wheel_rh_joint
+        pid: {p: 50.0, i: 2.0, d: 0.001}
+
+    # Low-Level Controllers -------------------------------------
+    gazebo_ros_control:
+        pid_gains:
+            leg_lf_joint:
+                p: 50.0
+                i: 0.5 
+                d: 5.0
+            leg_rf_joint:
+                p: 50.0
+                i: 0.5 
+                d: 5.0
+            leg_lh_joint:
+                p: 50.0
+                i: 0.5 
+                d: 5.0
+            leg_rh_joint:
+                p: 50.0
+                i: 0.5 
+                d: 5.0
